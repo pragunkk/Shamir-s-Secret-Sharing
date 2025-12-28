@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reconstruction Room</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .pool { margin: 20px 0; padding: 20px; border: 2px dashed #666; }
+        .share-item { background: #e0e0e0; padding: 5px 10px; margin: 5px; display: inline-block; border-radius: 4px;}
+        .secret-box { font-size: 2em; color: green; font-weight: bold; margin-top: 20px;}
+    </style>
+</head>
+<body>
+    <h1>Reconstruction Room</h1>
+    <p>Users must paste their shares here to unlock the secret.</p>
+
+    <div>
+        <input type="text" id="shareInput" placeholder='Paste JSON here (e.g. {"x":1, "y":"..."})' style="width: 400px;">
+        <button onclick="addShare()">Contribute Share</button>
+    </div>
+
+    <div class="pool">
+        <h3>Current Pool of Shares:</h3>
+        <div id="poolDisplay">No shares contributed yet.</div>
+        <br>
+        <button onclick="clearPool()" style="background: #ffcccc;">Clear Pool</button>
+    </div>
+
+    <button onclick="attemptSolve()" style="padding: 15px 30px; font-size: 1.2em; cursor: pointer;">
+        Attempt to Unlock Secret
+    </button>
+
+    <div id="result" class="secret-box"></div>
+
+    <script>
+        // On load, refresh the pool view
+        refreshPool();
+
+        async function addShare() {
+            const input = document.getElementById('shareInput').value;
+            try {
+                const data = JSON.parse(input);
+                await fetch('/api/pool', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                document.getElementById('shareInput').value = '';
+                refreshPool();
+            } catch(e) {
+                alert("Invalid JSON format! Copy directly from your dashboard.");
+            }
+        }
+
+        async function refreshPool() {
+            const res = await fetch('/api/pool');
+            const list = await res.json();
+            const container = document.getElementById('poolDisplay');
+            
+            if(list.length === 0) {
+                container.innerHTML = "No shares contributed yet.";
+            } else {
+                container.innerHTML = list.map(s => 
+                    `<span class="share-item">Share #${s.x}</span>`
+                ).join('');
+            }
+        }
+
+        async function attemptSolve() {
+            const res = await fetch('/api/solve', {method: 'POST'});
+            const data = await res.json();
+            const resultBox = document.getElementById('result');
+            
+            if(data.success) {
+                resultBox.innerHTML = "🔓 SECRET: " + data.secret;
+                resultBox.style.color = "green";
+            } else {
+                resultBox.innerHTML = "🔒 LOCKED (Not enough shares or invalid data)";
+                resultBox.style.color = "red";
+            }
+        }
+
+        async function clearPool() {
+            await fetch('/api/pool', {method: 'DELETE'});
+            document.getElementById('result').innerHTML = "";
+            refreshPool();
+        }
+    </script>
+</body>
+</html>

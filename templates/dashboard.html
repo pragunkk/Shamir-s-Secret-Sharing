@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: sans-serif; padding: 20px;">
+    <h2>Welcome, {{ user }}</h2>
+    <div style="border: 1px solid #ccc; padding: 20px; background: #f9f9f9;">
+        <h3>Your Secret Share</h3>
+        <p><strong>Index (x):</strong> {{ share.x }}</p>
+        <p><strong>Value (y):</strong></p>
+        <textarea readonly style="width: 100%; height: 100px;">{{ share.y }}</textarea>
+        <br><br>
+        <button onclick="copyShare()">Copy to Clipboard</button>
+    </div>
+    <br>
+    <a href="/logout">Logout</a>
+
+    <script>
+        function copyShare() {
+            const x = {{ share.x }};
+            const y = document.querySelector('textarea').value;
+            const data = JSON.stringify({x: x, y: y});
+            navigator.clipboard.writeText(data);
+            alert("Share copied! Go to the Reconstruction Room to contribute.");
+        }
+    </script>
+</body>
+</html>

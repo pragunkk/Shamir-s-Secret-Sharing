@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>Admin Setup</title></head>
+<body style="font-family: sans-serif; padding: 20px;">
+    <h2>1. Setup Secret</h2>
+    <form method="POST">
+        <label>The Secret Message:</label><br>
+        <input type="text" name="secret" required style="width: 300px;"><br><br>
+        
+        <label>Shareholders (comma separated usernames):</label><br>
+        <input type="text" name="usernames" placeholder="alice, bob, charlie, dave" required style="width: 300px;"><br><br>
+        
+        <label>Threshold (k) - Minimum users needed:</label><br>
+        <input type="number" name="threshold" value="3" required><br><br>
+        
+        <button type="submit">Split & Assign Shares</button>
+    </form>
+</body>
+</html>
