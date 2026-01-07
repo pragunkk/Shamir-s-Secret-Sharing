@@ -1,0 +1,199 @@
+/* style.css - Dark Theme with Pastel Blue Accent */
+
+:root {
+    --bg-color: #18181b;       /* Deep charcoal background */
+    --card-bg: #27272a;        /* Lighter charcoal for containers */
+    --text-primary: #f4f4f5;   /* Almost white text */
+    --text-secondary: #a1a1aa; /* Light grey subtext */
+    --accent: #93c5fd;         /* Pastel Blue accent button color */
+    --accent-hover: #60a5fa;   /* Slightly brighter pastel blue on hover */
+    --border-color: #3f3f46;   /* Subtle dark gray borders */
+    --success: #4ade80;        /* Pastel green for success */
+    --error: #f87171;          /* Pastel red for error */
+    --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --radius: 8px;             /* Soft rounded corners */
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Stronger shadow for dark mode depth */
+    --input-bg: #1f1f22;       /* Slightly darker than card bg for inputs */
+}
+
+/* --- Global Reset & Body --- */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-main);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 60px !important; /* Override inline padding */
+}
+
+/* --- Layout Container --- */
+/* We treat the body content like a centered card */
+body > * {
+    max-width: 600px;
+    width: 100%;
+}
+
+/* Wrap main content in a visual card if possible, 
+   but since we are styling existing HTML, we target specific blocks */
+div, form, body > div {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    /* Only apply shadow to main containers, not inner divs */
+    box-shadow: none; 
+}
+
+/* Apply card style to the main wrapper divs usually found in body */
+body > div, body > form {
+    padding: 40px !important;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: var(--shadow);
+    background: var(--card-bg) !important;
+    margin-bottom: 20px;
+}
+
+/* --- Typography --- */
+h1, h2, h3 {
+    margin-top: 0;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+h1 { font-size: 2rem; margin-bottom: 1.5rem; }
+h2 { font-size: 1.5rem; margin-bottom: 1.5rem; }
+h3 { font-size: 1.25rem; font-weight: 600; }
+
+p, label {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* --- Forms & Inputs --- */
+input[type="text"],
+input[type="number"],
+textarea {
+    width: 100% !important; /* Override inline width */
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    background-color: var(--input-bg); /* Dark input background */
+    color: var(--text-primary);
+    margin-bottom: 20px;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent); /* Accent border on focus */
+    background-color: var(--card-bg);
+    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.15); /* Pastel blue glow */
+}
+
+textarea {
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace; /* Code look for shares */
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    resize: vertical;
+}
+
+/* --- Buttons & Links --- */
+button, 
+a[href] {
+    display: inline-block;
+    width: 100%;
+    padding: 14px 20px !important;
+    background-color: var(--accent) !important;
+    color: var(--bg-color) !important; /* Dark text on pastel button for contrast */
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.1s ease, background-color 0.2s ease;
+    margin: 10px 0 !important;
+}
+
+button:hover, a:hover {
+    background-color: var(--accent-hover) !important;
+    transform: translateY(-1px);
+}
+
+button:active, a:active {
+    transform: translateY(1px);
+}
+
+/* Secondary/Ghost Button Style (for Logout or Clear) */
+a[href="/logout"], button[onclick="clearPool()"] {
+    background-color: transparent !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-secondary) !important;
+}
+
+a[href="/logout"]:hover, button[onclick="clearPool()"]:hover {
+    background-color: var(--border-color) !important; /* Subtle dark hover */
+    color: var(--text-primary) !important;
+    border-color: var(--text-primary) !important;
+}
+
+/* --- Dashboard Specifics --- */
+/* The container displaying the share */
+div[style*="border: 1px solid"] {
+    border: 1px solid var(--border-color) !important;
+    background-color: var(--input-bg) !important; /* Darker inner container */
+    padding: 25px !important;
+    border-radius: var(--radius);
+}
+
+/* --- Reconstruction Room Specifics --- */
+.pool {
+    border: 2px dashed var(--border-color) !important;
+    background-color: var(--input-bg); /* Darker pool background */
+    border-radius: var(--radius);
+    padding: 30px !important;
+    text-align: center;
+}
+
+.share-item {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-color);
+    padding: 8px 16px !important;
+    margin: 6px !important;
+    border-radius: 20px !important; /* Pill shape for tags */
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Darker subtle shadow */
+}
+
+.secret-box {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: var(--radius);
+    background: rgba(74, 222, 128, 0.1); /* Very subtle pastel green tint */
+    border: 1px solid var(--success); /* Pastel green border */
+    font-family: 'Menlo', monospace;
+    font-size: 1.5rem !important;
+    text-align: center;
+    color: var(--success);
+}
