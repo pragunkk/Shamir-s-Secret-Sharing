@@ -29,7 +29,7 @@ def _mod_inverse(k, prime):
 
 def split_secret(secret, n, k, prime=PRIME):
     """
-    Splits a secret into n shares, requiring k shares to reconstruct.
+    Splits a secret into n shares, and requires k shares to reconstruct.
     
     Args:
         secret (int): The integer secret to split.
