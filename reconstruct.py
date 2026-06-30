@@ -4,7 +4,7 @@ import json
 PRIME = 2**127 - 1
 
 def int_to_text(number):
-    """Converts the integer back to the original string."""
+    """Converts the integer back to its original string."""
     hex_val = hex(number)[2:]
     if len(hex_val) % 2 != 0:
         hex_val = '0' + hex_val
